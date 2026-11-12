@@ -1,0 +1,54 @@
+@import "tailwindcss";
+
+@layer base {
+  body {
+    font-family: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  }
+}
+
+/* Custom scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.15);
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.25);
+}
+
+/* Leaflet map styling overrides */
+.leaflet-container {
+  font-family: inherit;
+  background-color: #f1f3f5;
+  width: 100%;
+  height: 100%;
+}
+
+.leaflet-control-attribution {
+  display: none !important;
+}
+
+.leaflet-bar {
+  border: none !important;
+  box-shadow: none !important;
+}
+
+/* Hide default leaflet zoom since we have custom controls */
+.leaflet-control-zoom {
+  display: none !important;
+}
+
+/* Custom Marker CSS */
+.custom-price-pin {
+  background: transparent !important;
+  border: none !important;
+}

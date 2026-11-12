@@ -1,0 +1,62 @@
+[
+  {
+    "id": 1,
+    "source_url": "https://vineyard.vn/danh-muc/ruou-vang",
+    "slug": "ruou-vang",
+    "name": "Rượu Vang",
+    "parent_category": null,
+    "description": null,
+    "product_count": null,
+    "crawl_timestamp": "2026-11-12T08:43:09.860828+00:00"
+  },
+  {
+    "id": 2,
+    "source_url": "https://vineyard.vn/danh-muc/vang-trang",
+    "slug": "vang-trang",
+    "name": "Vang Trắng",
+    "parent_category": null,
+    "description": null,
+    "product_count": null,
+    "crawl_timestamp": "2026-11-12T08:43:14.017785+00:00"
+  },
+  {
+    "id": 3,
+    "source_url": "https://vineyard.vn/danh-muc/vang-do",
+    "slug": "vang-do",
+    "name": "Vang Đỏ",
+    "parent_category": null,
+    "description": null,
+    "product_count": null,
+    "crawl_timestamp": "2026-11-12T08:43:16.858279+00:00"
+  },
+  {
+    "id": 4,
+    "source_url": "https://vineyard.vn/danh-muc/vang-hong",
+    "slug": "vang-hong",
+    "name": "Vang Hồng",
+    "parent_category": null,
+    "description": null,
+    "product_count": null,
+    "crawl_timestamp": "2026-11-12T08:43:19.705902+00:00"
+  },
+  {
+    "id": 5,
+    "source_url": "https://vineyard.vn/danh-muc/vang-ngot",
+    "slug": "vang-ngot",
+    "name": "Vang Ngọt",
+    "parent_category": null,
+    "description": null,
+    "product_count": null,
+    "crawl_timestamp": "2026-11-12T08:43:22.371573+00:00"
+  },
+  {
+    "id": 6,
+    "source_url": "https://vineyard.vn/danh-muc/ruou-vang-cao-cap",
+    "slug": "ruou-vang-cao-cap",
+    "name": "Rượu Vang Cao Cấp",
+    "parent_category": null,
+    "description": null,
+    "product_count": null,
+    "crawl_timestamp": "2026-11-12T08:43:29.551248+00:00"
+  }
+]

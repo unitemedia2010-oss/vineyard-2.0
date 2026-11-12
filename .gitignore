@@ -1,0 +1,32 @@
+# Dependencies
+node_modules/
+venv/
+__pycache__/
+*.pyc
+
+# Environment & Secrets
+.env
+.env.local
+
+# Build outputs
+dist/
+.next/
+out/
+
+# Cache & Testing
+.pytest_cache/
+.coverage
+
+# Temporary files
+*.tmp
+*.log
+index.backup.html
+
+# Non-project spreadsheets
+*.xlsx
+ContentManager.gs
+download_bds_images.py
+sheet_gid.csv
+preview.html
+live_sheet*.xlsx
+current_sheet.xlsx
