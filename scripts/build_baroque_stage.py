@@ -1,0 +1,1625 @@
+import json
+
+with open("data/normalized/curated_catalog.json", encoding="utf-8") as f:
+    catalog = json.load(f)
+
+catalog_json_str = json.dumps(catalog, ensure_ascii=False)
+
+html_content = f"""<!DOCTYPE html>
+<html lang="vi" class="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>VINEYARD • Hầm Rượu Vang Hoàng Gia & Grand Cru Nhập Khẩu</title>
+<meta name="description" content="VINEYARD - Tuyển chọn các dòng vang Grand Cru, DOCG và rượu mạnh nhập khẩu chính ngạch từ các điền trang danh tiếng thế giới.">
+<meta name="theme-color" content="#120408">
+
+<!-- Google Fonts: Pinyon Script (1 accent only), Cinzel, Noto Serif Display, Be Vietnam Pro -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;800&family=Noto+Serif+Display:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Pinyon+Script&family=Be+Vietnam+Pro:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+/* ==========================================================================
+   VINEYARD ROYAL BORDEAUX & BAROQUE GOLD DESIGN SYSTEM
+   Inspired by Haute Somellerie, Royal Crest Engravings & Palace Cellars
+   ========================================================================== */
+:root {{
+  --bg-dark: #0f0306;
+  --bg-cellar: #150509;
+  --bg-card: #1c080d;
+  --bg-elevated: #260a12;
+  --wine-dark: #2c0911;
+  --wine-red: #4a0f1d;
+  --wine-glow: #6f162b;
+  --wine-bright: #961e3a;
+  --gold-dark: #82662c;
+  --gold-primary: #cbb06d;
+  --gold-light: #f0deaa;
+  --gold-shimmer: #fff2cc;
+  --text-primary: #f8f1e7;
+  --text-secondary: #cfc2b4;
+  --text-muted: #8a7974;
+  --border-subtle: rgba(203, 176, 109, 0.16);
+  --border-gold: rgba(203, 176, 109, 0.35);
+  --font-display: 'Cinzel', serif;
+  --font-serif: 'Noto Serif Display', Georgia, serif;
+  --font-sans: 'Be Vietnam Pro', system-ui, sans-serif;
+  --font-script: 'Pinyon Script', cursive;
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-cinematic: cubic-bezier(0.16, 1, 0.3, 1);
+}}
+
+*, *::before, *::after {{
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}}
+
+html {{
+  scroll-behavior: smooth;
+  background-color: var(--bg-dark);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}}
+
+body {{
+  min-height: 100vh;
+  background-color: var(--bg-dark);
+  color: var(--text-primary);
+  overflow-x: hidden;
+  position: relative;
+}}
+
+/* Custom Scrollbars */
+::-webkit-scrollbar {{ width: 6px; }}
+::-webkit-scrollbar-track {{ background: var(--bg-dark); }}
+::-webkit-scrollbar-thumb {{ background: var(--wine-glow); border-radius: 99px; }}
+
+/* Canvas Background for Ambient Stardust */
+#stardust-canvas {{
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 1;
+}}
+
+/* ==========================================================================
+   NAVIGATION BAR (Regal Palace Glassmorphism)
+   ========================================================================== */
+.royal-header {{
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 clamp(20px, 4vw, 60px);
+  background: linear-gradient(180deg, rgba(15, 3, 6, 0.95) 0%, rgba(15, 3, 6, 0) 100%);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(203, 176, 109, 0.12);
+  transition: all 0.4s var(--ease-cinematic);
+}}
+
+.nav-links-left {{
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  list-style: none;
+}}
+
+.nav-link {{
+  font-family: var(--font-display);
+  font-size: 11.5px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  text-decoration: none;
+  transition: color 0.3s;
+}}
+
+.nav-link:hover {{
+  color: var(--gold-light);
+}}
+
+/* Center Brand Monogram */
+.brand-center {{
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-decoration: none;
+  cursor: pointer;
+}}
+
+.brand-crest-icon {{
+  width: 22px;
+  height: 22px;
+  margin-bottom: 3px;
+  fill: var(--gold-primary);
+  filter: drop-shadow(0 0 8px rgba(203, 176, 109, 0.5));
+}}
+
+.brand-name {{
+  font-family: var(--font-display);
+  font-size: 21px;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  color: var(--text-primary);
+  line-height: 1;
+}}
+
+.brand-subtitle {{
+  font-family: var(--font-sans);
+  font-size: 8.5px;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--gold-primary);
+  margin-top: 3px;
+}}
+
+.nav-tools-right {{
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}}
+
+.btn-hotline {{
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 18px;
+  border-radius: 99px;
+  border: 1px solid var(--border-gold);
+  background: rgba(28, 8, 13, 0.7);
+  font-family: var(--font-display);
+  font-size: 11.5px;
+  letter-spacing: 0.12em;
+  color: var(--gold-light);
+  text-decoration: none;
+  transition: all 0.3s;
+}}
+
+.btn-hotline:hover {{
+  background: var(--wine-red);
+  border-color: var(--gold-primary);
+  box-shadow: 0 0 20px rgba(111, 22, 43, 0.4);
+}}
+
+.cart-pill-btn {{
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px solid var(--border-gold);
+  background: rgba(28, 8, 13, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  position: relative;
+  transition: all 0.3s;
+}}
+
+.cart-pill-btn svg {{
+  width: 17px;
+  height: 17px;
+  stroke: var(--gold-primary);
+}}
+
+.cart-pill-btn:hover {{
+  background: var(--wine-red);
+  transform: scale(1.06);
+}}
+
+.cart-counter {{
+  position: absolute;
+  top: -3px;
+  right: -3px;
+  width: 17px;
+  height: 17px;
+  border-radius: 50%;
+  background: var(--wine-bright);
+  color: #fff;
+  font-size: 9.5px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}}
+
+/* ==========================================================================
+   HERO STAGE: THE ROYAL BORDEAUX PALACE (EXACT USER DESIGN REFERENCE)
+   ========================================================================== */
+.hero-stage {{
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 100px clamp(20px, 4vw, 60px) 60px;
+  overflow: hidden;
+  z-index: 2;
+  background: radial-gradient(circle at 66% 48%, #4e1420 0%, #28080f 45%, #150408 80%, #0f0306 100%);
+}}
+
+/* Golden Baroque Wings Framing (Left & Right) */
+.baroque-wing-left {{
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+  height: clamp(340px, 78vh, 680px);
+  max-width: 25vw;
+  object-fit: contain;
+  pointer-events: none;
+  z-index: 3;
+  opacity: 0.92;
+  mix-blend-mode: screen;
+  filter: drop-shadow(0 0 25px rgba(203, 176, 109, 0.25));
+}}
+
+.baroque-wing-right {{
+  position: absolute;
+  top: 50%;
+  right: 0;
+  transform: translateY(-50%);
+  height: clamp(340px, 78vh, 680px);
+  max-width: 25vw;
+  object-fit: contain;
+  pointer-events: none;
+  z-index: 3;
+  opacity: 0.92;
+  mix-blend-mode: screen;
+  filter: drop-shadow(0 0 25px rgba(203, 176, 109, 0.25));
+}}
+
+/* Main Hero Grid Layout */
+.hero-container {{
+  position: relative;
+  width: 100%;
+  max-width: 1280px;
+  display: grid;
+  grid-template-columns: minmax(0, 5.2fr) minmax(0, 6.8fr);
+  align-items: center;
+  gap: clamp(24px, 4vw, 60px);
+  z-index: 5;
+}}
+
+/* Left Column: Wine Profile & Tasting Typography */
+.hero-copy-col {{
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  z-index: 6;
+}}
+
+.micro-tag-top {{
+  font-family: var(--font-display);
+  font-size: 11px;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--gold-primary);
+  margin-bottom: 14px;
+}}
+
+/* The ONLY Script Accent (Graceful Calligraphy on Hero Title) */
+.hero-script-title {{
+  font-family: var(--font-script);
+  font-size: clamp(48px, 6vw, 76px);
+  font-weight: 400;
+  line-height: 0.92;
+  color: var(--gold-light);
+  letter-spacing: 0.01em;
+  text-shadow: 0 4px 20px rgba(203, 176, 109, 0.35);
+  margin-bottom: 4px;
+}}
+
+.hero-serif-subtitle {{
+  font-family: var(--font-serif);
+  font-size: clamp(22px, 2.6vw, 32px);
+  font-weight: 300;
+  letter-spacing: 0.04em;
+  color: var(--text-primary);
+  margin-bottom: 18px;
+}}
+
+.gold-divider-rule {{
+  width: 120px;
+  height: 1px;
+  background: linear-gradient(90deg, var(--gold-primary) 0%, rgba(203, 176, 109, 0) 100%);
+  margin-bottom: 20px;
+}}
+
+.hero-tasting-quote {{
+  font-family: var(--font-sans);
+  font-size: 14.5px;
+  line-height: 1.7;
+  color: var(--text-secondary);
+  max-width: 48ch;
+  margin-bottom: 24px;
+}}
+
+/* Specification Pills */
+.hero-specs-row {{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 28px;
+}}
+
+.hero-spec-pill {{
+  padding: 5px 14px;
+  border-radius: 99px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--border-gold);
+  font-family: var(--font-display);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  color: var(--gold-light);
+}}
+
+.hero-spec-pill.abv {{
+  background: rgba(111, 22, 43, 0.45);
+  border-color: rgba(150, 30, 58, 0.6);
+  color: #ffc4ce;
+  font-weight: 600;
+}}
+
+/* Action Buttons */
+.hero-cta-group {{
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 24px;
+}}
+
+.btn-royal-solid {{
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 13px 30px;
+  border-radius: 4px;
+  border: 1px solid var(--gold-primary);
+  background: var(--gold-primary);
+  color: #120408;
+  font-family: var(--font-display);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.3s;
+  box-shadow: 0 8px 24px rgba(203, 176, 109, 0.3);
+}}
+
+.btn-royal-solid:hover {{
+  background: var(--gold-light);
+  border-color: var(--gold-light);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 30px rgba(203, 176, 109, 0.45);
+}}
+
+.btn-royal-outline {{
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 13px 26px;
+  border-radius: 4px;
+  border: 1px solid var(--border-gold);
+  background: rgba(28, 8, 13, 0.7);
+  color: var(--text-primary);
+  font-family: var(--font-display);
+  font-size: 11.5px;
+  letter-spacing: 0.14em;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.3s;
+}}
+
+.btn-royal-outline:hover {{
+  background: var(--wine-red);
+  border-color: var(--gold-primary);
+}}
+
+/* Golden Phoenix Accent Below Text */
+.phoenix-accent-img {{
+  width: 90px;
+  height: auto;
+  opacity: 0.85;
+  mix-blend-mode: screen;
+  filter: drop-shadow(0 0 10px rgba(203, 176, 109, 0.3));
+}}
+
+/* Right Column: Bottle & Wine Glass Showcase */
+.hero-visual-col {{
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}}
+
+.bottle-glass-stage {{
+  position: relative;
+  width: 100%;
+  max-width: 520px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}}
+
+.hero-showcase-img {{
+  max-width: 100%;
+  height: clamp(380px, 58vh, 540px);
+  object-fit: contain;
+  filter: drop-shadow(0 25px 40px rgba(0, 0, 0, 0.95)) drop-shadow(0 0 40px rgba(78, 20, 32, 0.4));
+  transition: transform 0.6s var(--ease-spring);
+}}
+
+.hero-showcase-img:hover {{
+  transform: scale(1.03) translateY(-4px);
+}}
+
+/* Golden Baseline with Scroll Flourishes (Exact from Reference Image) */
+.hero-baseline-line {{
+  position: relative;
+  width: 90%;
+  max-width: 480px;
+  height: 1px;
+  background: linear-gradient(90deg, rgba(203, 176, 109, 0) 0%, var(--gold-primary) 20%, var(--gold-primary) 80%, rgba(203, 176, 109, 0) 100%);
+  margin-top: -12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}}
+
+.baseline-scroll {{
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  border: 1px solid var(--gold-primary);
+  background: var(--bg-dark);
+}}
+
+/* Bottom Center Framed Button */
+.bottom-explore-btn {{
+  position: absolute;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 9px 24px;
+  border: 1px solid var(--border-gold);
+  border-radius: 2px;
+  background: rgba(21, 5, 9, 0.7);
+  font-family: var(--font-display);
+  font-size: 10.5px;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--gold-light);
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  z-index: 10;
+  transition: all 0.3s;
+}}
+
+.bottom-explore-btn:hover {{
+  background: var(--wine-red);
+  border-color: var(--gold-primary);
+  box-shadow: 0 0 20px rgba(203, 176, 109, 0.3);
+}}
+
+/* ==========================================================================
+   ACT II: CẢM QUAN VÒM MIỆNG (SENSORY MATRIX)
+   ========================================================================== */
+.section-palace {{
+  position: relative;
+  padding: clamp(80px, 10vw, 130px) clamp(20px, 4vw, 60px);
+  z-index: 5;
+  border-top: 1px solid var(--border-subtle);
+  background: linear-gradient(180deg, var(--bg-dark) 0%, var(--bg-cellar) 100%);
+}}
+
+.section-head {{
+  text-align: center;
+  max-width: 680px;
+  margin: 0 auto clamp(36px, 5vw, 60px);
+}}
+
+.section-tag {{
+  display: inline-block;
+  font-family: var(--font-display);
+  font-size: 10.5px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--gold-primary);
+  margin-bottom: 12px;
+}}
+
+.section-title {{
+  font-family: var(--font-serif);
+  font-size: clamp(30px, 4vw, 48px);
+  font-weight: 300;
+  line-height: 1.15;
+  color: var(--text-primary);
+  margin-bottom: 12px;
+  letter-spacing: 0.04em;
+}}
+
+.section-desc {{
+  font-size: 14.5px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}}
+
+.tasting-stage-grid {{
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+  gap: clamp(30px, 5vw, 70px);
+  align-items: center;
+  max-width: 1100px;
+  margin: 0 auto;
+  background: linear-gradient(135deg, rgba(28, 8, 13, 0.7) 0%, rgba(15, 3, 6, 0.95) 100%);
+  border: 1px solid var(--border-gold);
+  border-radius: 18px;
+  padding: clamp(24px, 4vw, 44px);
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.85);
+}}
+
+.palate-radar {{
+  display: grid;
+  gap: 16px;
+}}
+
+.sensory-row {{
+  display: grid;
+  grid-template-columns: 110px 1fr 60px;
+  align-items: center;
+  gap: 16px;
+  font-size: 13px;
+}}
+
+.sensory-label {{
+  font-family: var(--font-display);
+  letter-spacing: 0.06em;
+  color: var(--gold-light);
+  font-size: 11.5px;
+}}
+
+.sensory-track {{
+  height: 5px;
+  border-radius: 99px;
+  background: rgba(255, 255, 255, 0.08);
+  overflow: hidden;
+  position: relative;
+}}
+
+.sensory-bar {{
+  height: 100%;
+  border-radius: 99px;
+  background: linear-gradient(90deg, var(--wine-glow) 0%, var(--gold-primary) 100%);
+  box-shadow: 0 0 10px var(--gold-primary);
+}}
+
+.sensory-val {{
+  font-family: var(--font-sans);
+  font-weight: 600;
+  color: var(--text-muted);
+  text-align: right;
+  font-size: 12px;
+}}
+
+.flavor-badges-wrap {{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 14px;
+}}
+
+.flavor-pill {{
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  border-radius: 99px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--border-subtle);
+  font-size: 12.5px;
+  color: var(--text-secondary);
+}}
+
+/* ==========================================================================
+   ACT III: BỘ SƯU TẬP 35 DÒNG VANG (CURATED COLLECTION)
+   ========================================================================== */
+.catalog-section {{
+  max-width: 1320px;
+  margin: 0 auto;
+  padding: 0 clamp(20px, 4vw, 60px) 100px;
+  position: relative;
+  z-index: 5;
+}}
+
+.catalog-toolbar {{
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 16px 22px;
+  background: rgba(28, 8, 13, 0.65);
+  border: 1px solid var(--border-gold);
+  border-radius: 12px;
+  margin-bottom: 36px;
+  backdrop-filter: blur(10px);
+}}
+
+.catalog-filters {{
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}}
+
+.filter-btn {{
+  padding: 7px 16px;
+  border-radius: 99px;
+  background: transparent;
+  border: 1px solid var(--border-subtle);
+  color: var(--text-secondary);
+  font-family: var(--font-display);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  cursor: pointer;
+  transition: all 0.3s;
+}}
+
+.filter-btn:hover, .filter-btn.active {{
+  background: var(--gold-primary);
+  border-color: var(--gold-primary);
+  color: #120408;
+  font-weight: 700;
+  box-shadow: 0 0 15px rgba(203, 176, 109, 0.35);
+}}
+
+.catalog-search-wrap {{
+  position: relative;
+  min-width: 240px;
+}}
+
+.catalog-search-wrap input {{
+  width: 100%;
+  padding: 8px 16px 8px 36px;
+  border-radius: 99px;
+  background: rgba(15, 3, 6, 0.85);
+  border: 1px solid var(--border-gold);
+  color: var(--text-primary);
+  font-size: 12.5px;
+  outline: none;
+  transition: all 0.3s;
+}}
+
+.catalog-search-wrap svg {{
+  position: absolute;
+  top: 50%;
+  left: 12px;
+  transform: translateY(-50%);
+  width: 15px;
+  height: 15px;
+  stroke: var(--gold-primary);
+}}
+
+/* 3D Wine Cards Grid */
+.wine-grid {{
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+  gap: clamp(18px, 2.5vw, 30px);
+}}
+
+.wine-art-card {{
+  position: relative;
+  background: linear-gradient(180deg, rgba(28, 8, 13, 0.7) 0%, rgba(12, 3, 5, 0.95) 100%);
+  border: 1px solid var(--border-subtle);
+  border-radius: 14px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: all 0.4s var(--ease-spring);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.7);
+  cursor: pointer;
+}}
+
+.wine-art-card:hover {{
+  transform: translateY(-6px);
+  border-color: var(--gold-primary);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.9), 0 0 25px rgba(203, 176, 109, 0.2);
+}}
+
+.card-top-badges {{
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  right: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 5;
+  pointer-events: none;
+}}
+
+.badge-country {{
+  padding: 3px 9px;
+  border-radius: 99px;
+  background: rgba(15, 3, 6, 0.85);
+  border: 1px solid var(--border-gold);
+  font-family: var(--font-display);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  color: var(--gold-light);
+}}
+
+.badge-abv {{
+  padding: 3px 9px;
+  border-radius: 99px;
+  background: var(--wine-red);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  font-size: 10.5px;
+  font-weight: 600;
+  color: #fff;
+}}
+
+.card-bottle-stage {{
+  position: relative;
+  aspect-ratio: 3/4;
+  padding: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(circle at 50% 60%, rgba(111, 22, 43, 0.22) 0%, rgba(15, 3, 6, 0) 70%);
+  overflow: hidden;
+}}
+
+.card-bottle-stage img {{
+  max-height: 88%;
+  max-width: 88%;
+  object-fit: contain;
+  filter: drop-shadow(0 15px 25px rgba(0, 0, 0, 0.85));
+  transition: transform 0.5s var(--ease-spring);
+}}
+
+.wine-art-card:hover .card-bottle-stage img {{
+  transform: scale(1.08) translateY(-4px);
+}}
+
+.card-body {{
+  padding: 16px 18px;
+  border-top: 1px solid rgba(203, 176, 109, 0.1);
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  justify-content: space-between;
+}}
+
+.card-brand {{
+  font-family: var(--font-display);
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--gold-primary);
+  margin-bottom: 4px;
+}}
+
+.card-wine-name {{
+  font-family: var(--font-serif);
+  font-size: 16.5px;
+  font-weight: 400;
+  line-height: 1.25;
+  color: var(--text-primary);
+  margin-bottom: 6px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  transition: color 0.3s;
+}}
+
+.wine-art-card:hover .card-wine-name {{
+  color: var(--gold-light);
+}}
+
+.card-terroir {{
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-bottom: 12px;
+}}
+
+.card-foot {{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 10px;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+}}
+
+.card-price {{
+  font-family: var(--font-display);
+  font-size: 13px;
+  color: var(--gold-light);
+}}
+
+.btn-card-action {{
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 1px solid var(--border-gold);
+  background: var(--wine-red);
+  color: var(--gold-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s;
+}}
+
+.btn-card-action:hover {{
+  background: var(--gold-primary);
+  color: #120408;
+  transform: scale(1.1);
+}}
+
+/* ==========================================================================
+   ACT IV: BORDEAUX GRAND CRU & SHOWROOM
+   ========================================================================== */
+.bdx-section {{
+  background: linear-gradient(160deg, #3d0d18 0%, #170509 70%);
+  padding: 80px 20px;
+  border-top: 1px solid var(--border-gold);
+}}
+
+.bdx-grid {{
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+  gap: 50px;
+  max-width: 1200px;
+  margin: 0 auto;
+  align-items: center;
+}}
+
+.showroom-grid {{
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 22px;
+  max-width: 1100px;
+  margin: 0 auto;
+}}
+
+.showroom-card {{
+  padding: 26px;
+  background: rgba(28, 8, 13, 0.7);
+  border: 1px solid var(--border-gold);
+  border-radius: 12px;
+}}
+
+.showroom-city {{
+  font-family: var(--font-display);
+  font-size: 16px;
+  color: var(--gold-light);
+  letter-spacing: 0.1em;
+  margin-bottom: 10px;
+}}
+
+.showroom-addr {{
+  font-size: 13px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}}
+
+/* Modal Detail */
+.modal-overlay {{
+  position: fixed;
+  inset: 0;
+  background: rgba(6, 1, 3, 0.92);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.35s;
+}}
+
+.modal-overlay.open {{
+  opacity: 1;
+  pointer-events: auto;
+}}
+
+.modal-container {{
+  width: 100%;
+  max-width: 900px;
+  max-height: 90vh;
+  overflow-y: auto;
+  background: linear-gradient(135deg, #24080f 0%, #100306 100%);
+  border: 1px solid var(--gold-primary);
+  border-radius: 20px;
+  padding: clamp(24px, 4vw, 44px);
+  position: relative;
+  box-shadow: 0 35px 80px rgba(0, 0, 0, 0.95);
+}}
+
+.modal-close-btn {{
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1px solid var(--border-gold);
+  background: rgba(255, 255, 255, 0.05);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--gold-primary);
+  cursor: pointer;
+}}
+
+/* Slide-Over Cart Drawer */
+.cart-drawer-overlay {{
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(8px);
+  z-index: 210;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.35s;
+}}
+
+.cart-drawer-overlay.open {{
+  opacity: 1;
+  pointer-events: auto;
+}}
+
+.cart-drawer {{
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: min(100vw, 420px);
+  background: #150509;
+  border-left: 1px solid var(--gold-primary);
+  box-shadow: -20px 0 60px rgba(0, 0, 0, 0.9);
+  padding: 28px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transform: translateX(100%);
+  transition: transform 0.4s var(--ease-cinematic);
+}}
+
+.cart-drawer-overlay.open .cart-drawer {{
+  transform: translateX(0);
+}}
+
+/* Responsive Breakpoints */
+@media (max-width: 980px) {{
+  .hero-container {{ grid-template-columns: 1fr; text-align: center; }}
+  .hero-copy-col {{ align-items: center; }}
+  .gold-divider-rule {{ margin: 0 auto 20px; }}
+  .hero-specs-row, .hero-cta-group {{ justify-content: center; }}
+  .baroque-wing-left, .baroque-wing-right {{ opacity: 0.35; width: 35vw; }}
+  .nav-links-left {{ display: none; }}
+  .bdx-grid {{ grid-template-columns: 1fr; }}
+  .tasting-stage-grid {{ grid-template-columns: 1fr; }}
+}}
+</style>
+</head>
+
+<body>
+
+<!-- Canvas for subtle rising golden stardust -->
+<canvas id="stardust-canvas"></canvas>
+
+<!-- ==========================================================================
+     HEADER
+     ========================================================================== -->
+<header class="royal-header">
+  <ul class="nav-links-left">
+    <li><a class="nav-link" href="#hero">SÂN KHẤU HOÀNG GIA</a></li>
+    <li><a class="nav-link" href="#tasting">CẢM QUAN VÒM MIỆNG</a></li>
+    <li><a class="nav-link" href="#catalog">BỘ SƯU TẬP</a></li>
+    <li><a class="nav-link" href="#showroom">SHOWROOM</a></li>
+  </ul>
+
+  <!-- Center Crest Logo -->
+  <a class="brand-center" href="#hero">
+    <svg class="brand-crest-icon" viewBox="0 0 24 24"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg>
+    <div class="brand-name">VINEYARD</div>
+    <div class="brand-subtitle">GRAND CRU CELLAR • EST. 2012</div>
+  </a>
+
+  <div class="nav-tools-right">
+    <a class="btn-hotline" href="tel:0911002233">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+      <span>0911 00 22 33</span>
+    </a>
+
+    <div class="cart-pill-btn" id="cart-open-btn" title="Danh sách thử nếm">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+      <div class="cart-counter" id="cart-badge">0</div>
+    </div>
+  </div>
+</header>
+
+<!-- ==========================================================================
+     HERO: ROYAL BORDEAUX PALACE (EXACT MATCH USER DESIGN REFERENCE)
+     ========================================================================== -->
+<section class="hero-stage" id="hero">
+  <!-- Left & Right Baroque Gold Wings (Cropped from Reference Image) -->
+  <img class="baroque-wing-left" src="assets/ornament_left_trans.png" alt="Baroque Left Wing">
+  <img class="baroque-wing-right" src="assets/ornament_right_trans.png" alt="Baroque Right Wing">
+
+  <div class="hero-container">
+    <!-- Left Column: Typography & Wine Profile -->
+    <div class="hero-copy-col">
+      <div class="micro-tag-top">GRAND CRU CLASSÉ • PUGLIA & BORDEAUX</div>
+
+      <!-- The ONLY Cursive Script Accent (Address User Point 2) -->
+      <div class="hero-script-title" id="hero-wine-script">R9 Primitivo di Manduria</div>
+      <div class="hero-serif-subtitle" id="hero-wine-sub">Passito Salento IGP • 2019</div>
+
+      <div class="gold-divider-rule"></div>
+
+      <p class="hero-tasting-quote" id="hero-wine-quote">
+        "Cấu trúc chắc chắn, hương quả mận chín, anh đào đen, sô-cô-la đen hòa quyện cùng gia vị nướng ấm áp của gỗ sồi lâu năm."
+      </p>
+
+      <div class="hero-specs-row">
+        <span class="hero-spec-pill abv" id="hero-wine-abv">19.0% ABV</span>
+        <span class="hero-spec-pill" id="hero-wine-origin">Ý • PUGLIA</span>
+        <span class="hero-spec-pill" id="hero-wine-size">750 ML</span>
+      </div>
+
+      <div class="hero-cta-group">
+        <button class="btn-royal-solid" id="hero-add-cart-btn">THÊM VÀO THỬ NẾM</button>
+        <button class="btn-royal-outline" id="hero-detail-modal-btn">CHI TIẾT VÒM MIỆNG</button>
+      </div>
+
+      <!-- Phoenix Accent Ornament from User Reference Image -->
+      <img class="phoenix-accent-img" src="assets/phoenix_accent_trans.png" alt="Phoenix Accent">
+    </div>
+
+    <!-- Right Column: Wine Bottle & Crystal Glass Showcase -->
+    <div class="hero-visual-col">
+      <div class="bottle-glass-stage">
+        <img class="hero-showcase-img" id="hero-showcase-img" src="assets/bottle_glass_feathered.png" alt="Royal Wine Bottle & Crystal Glass">
+      </div>
+
+      <!-- Fine Gold Baseline with Spiral Ends -->
+      <div class="hero-baseline-line">
+        <div class="baseline-scroll"></div>
+        <div class="baseline-scroll"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bottom Explore Button -->
+  <a class="bottom-explore-btn" href="#catalog">
+    <span>KHÁM PHÁ TOÀN BỘ HẦM RƯỢU</span>
+    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 13l5 5 5-5M7 6l5 5 5-5"/></svg>
+  </a>
+</section>
+
+<!-- ==========================================================================
+     ACT II: CẢM QUAN VÒM MIỆNG (SENSORY MATRIX)
+     ========================================================================== -->
+<section class="section-palace" id="tasting">
+  <div class="section-head">
+    <span class="section-tag">Nghệ Thuật Cảm Quan Rượu Vang</span>
+    <h2 class="section-title">Cấu Trúc Tầng Hương & Vòm Miệng</h2>
+    <p class="section-desc">Mỗi giọt rượu là sự kết tinh của thổ nhưỡng trù phú và tay nghề bậc thầy làm vang châu Âu.</p>
+  </div>
+
+  <div class="tasting-stage-grid">
+    <div>
+      <h3 style="font-family: var(--font-display); font-size: 15px; color: var(--gold-light); letter-spacing: 0.14em; margin-bottom: 14px;">TẦNG HƯƠNG ĐẶC TRƯNG</h3>
+      <div class="flavor-badges-wrap">
+        <span class="flavor-pill">🍓 Quả Mọng Đỏ & Mận Chín</span>
+        <span class="flavor-pill">🪵 Gỗ Sồi Pháp & Vani</span>
+        <span class="flavor-pill">🍫 Sô-cô-la Đen & Cacao</span>
+        <span class="flavor-pill">👞 Da Thuộc & Xì Gà</span>
+        <span class="flavor-pill">🍇 Nho Phơi Passito Cô Đọng</span>
+      </div>
+    </div>
+
+    <div>
+      <h3 style="font-family: var(--font-display); font-size: 15px; color: var(--gold-light); letter-spacing: 0.14em; margin-bottom: 14px;">CẤU TRÚC VÒM MIỆNG (PALATE ARCHITECTURE)</h3>
+      <div class="palate-radar">
+        <div class="sensory-row">
+          <span class="sensory-label">ĐỘ ĐẬM (BODY)</span>
+          <div class="sensory-track"><div class="sensory-bar" style="width: 98%;"></div></div>
+          <span class="sensory-val">9.8 / 10</span>
+        </div>
+        <div class="sensory-row">
+          <span class="sensory-label">VỊ CHÁT (TANNIN)</span>
+          <div class="sensory-track"><div class="sensory-bar" style="width: 90%;"></div></div>
+          <span class="sensory-val">9.0 / 10</span>
+        </div>
+        <div class="sensory-row">
+          <span class="sensory-label">ĐỘ CHUA (ACIDITY)</span>
+          <div class="sensory-track"><div class="sensory-bar" style="width: 62%;"></div></div>
+          <span class="sensory-val">6.2 / 10</span>
+        </div>
+        <div class="sensory-row">
+          <span class="sensory-label">HẬU VỊ (FINISH)</span>
+          <div class="sensory-track"><div class="sensory-bar" style="width: 98%;"></div></div>
+          <span class="sensory-val">Bất Tận</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==========================================================================
+     ACT III: BỘ SƯU TẬP TOÀN BỘ 35 DÒNG VANG
+     ========================================================================== -->
+<section class="catalog-section" id="catalog">
+  <div class="section-head">
+    <span class="section-tag">Bộ Sưu Tập Nhập Khẩu</span>
+    <h2 class="section-title">Hầm Vang Tuyển Chọn Đầy Đủ</h2>
+    <p class="section-desc">Toàn bộ 35 kiệt tác vang thượng hạng đã được khảo sát thực tế và lưu trữ toàn vẹn thuộc tính.</p>
+  </div>
+
+  <!-- Filter Toolbar -->
+  <div class="catalog-toolbar">
+    <div class="catalog-filters" id="country-filters">
+      <button class="filter-btn active" data-country="All">Tất Cả Xuất Xứ</button>
+      <button class="filter-btn" data-country="Ý">Ý (Puglia, Tuscany)</button>
+      <button class="filter-btn" data-country="Pháp">Pháp (Bordeaux)</button>
+      <button class="filter-btn" data-country="Úc">Úc (Barossa)</button>
+      <button class="filter-btn" data-country="Chile">Chile</button>
+      <button class="filter-btn" data-country="Tây Ban Nha">Tây Ban Nha</button>
+    </div>
+
+    <div class="catalog-search-wrap">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input type="text" id="catalog-search-input" placeholder="Tìm tên vang, SKU, nhà sản xuất...">
+    </div>
+  </div>
+
+  <!-- 3D Wine Cards Grid -->
+  <div class="wine-grid" id="wine-cards-grid">
+    <!-- Injected dynamically via JS -->
+  </div>
+</section>
+
+<!-- ==========================================================================
+     ACT IV: BORDEAUX GRAND CRU & SHOWROOM
+     ========================================================================== -->
+<section class="bdx-section" id="bordeaux">
+  <div class="bdx-grid">
+    <div>
+      <span class="section-tag">Lâu Đài Di Sản</span>
+      <h2 class="section-title">BORDEAUX GRAND CRU</h2>
+      <p class="section-desc" style="margin-bottom: 24px;">Tuyển chọn các niên vụ danh giá từ Saint-Émilion, Margaux, Pauillac, Pomerol được bảo quản hầm tối 16°C.</p>
+      <a class="btn-royal-solid" href="#catalog">XEM VANG PHÁP CAO CẤP</a>
+    </div>
+
+    <div style="display: flex; flex-direction: column; gap: 16px;">
+      <div style="padding: 16px 20px; border-radius: 8px; background: rgba(255,255,255,0.03); border: 1px solid var(--border-gold); display: flex; justify-content: space-between; align-items: center;">
+        <div>
+          <b style="font-family: var(--font-display); font-size: 14px; color: var(--gold-light);">Château Pavie Premier Grand Cru Classé A</b>
+          <p style="font-size: 12px; color: var(--text-muted); margin-top: 3px;">Saint-Émilion • Niên vụ 2004 & 1994</p>
+        </div>
+        <span style="font-family: var(--font-display); font-size: 11px; color: var(--gold-primary); border: 1px solid var(--border-gold); padding: 4px 10px; border-radius: 99px;">Bordeaux</span>
+      </div>
+
+      <div style="padding: 16px 20px; border-radius: 8px; background: rgba(255,255,255,0.03); border: 1px solid var(--border-gold); display: flex; justify-content: space-between; align-items: center;">
+        <div>
+          <b style="font-family: var(--font-display); font-size: 14px; color: var(--gold-light);">Château Angélus Premier Grand Cru Classé A</b>
+          <p style="font-size: 12px; color: var(--text-muted); margin-top: 3px;">Saint-Émilion • Niên vụ 1995 huyền thoại</p>
+        </div>
+        <span style="font-family: var(--font-display); font-size: 11px; color: var(--gold-primary); border: 1px solid var(--border-gold); padding: 4px 10px; border-radius: 99px;">Bordeaux</span>
+      </div>
+
+      <div style="padding: 16px 20px; border-radius: 8px; background: rgba(255,255,255,0.03); border: 1px solid var(--border-gold); display: flex; justify-content: space-between; align-items: center;">
+        <div>
+          <b style="font-family: var(--font-display); font-size: 14px; color: var(--gold-light);">Château Latour Pauillac Premier Grand Cru Classé</b>
+          <p style="font-size: 12px; color: var(--text-muted); margin-top: 3px;">Pauillac • Niên vụ 1993 & 1997</p>
+        </div>
+        <span style="font-family: var(--font-display); font-size: 11px; color: var(--gold-primary); border: 1px solid var(--border-gold); padding: 4px 10px; border-radius: 99px;">Bordeaux</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==========================================================================
+     ACT V: SHOWROOM 3 MIỀN & LIÊN HỆ
+     ========================================================================== -->
+<section class="section-palace" id="showroom">
+  <div class="section-head">
+    <span class="section-tag">Hệ Thống Trưng Bày Showroom</span>
+    <h2 class="section-title">Ghé Thăm Không Gian Thưởng Nếm</h2>
+    <p class="section-desc">Phòng thử nếm Sommelier VIP tại 3 thành phố lớn sẵn sàng đón tiếp quý khách.</p>
+  </div>
+
+  <div class="showroom-grid">
+    <div class="showroom-card">
+      <h3 class="showroom-city">TP. HỒ CHÍ MINH</h3>
+      <p class="showroom-addr">
+        184–186 Lê Lai, Phường Bến Thành, Quận 1<br>
+        Hotline: 0911 00 22 33<br>
+        Giờ đón tiếp: 9:00 – 21:00 (Mỗi ngày)
+      </p>
+      <span style="font-size: 11px; color: var(--gold-primary); font-family: var(--font-display); display: block; margin-top: 10px;">Hầm 16°C • Thử Nếm Decanter Trực Tiếp</span>
+    </div>
+
+    <div class="showroom-card">
+      <h3 class="showroom-city">HÀ NỘI</h3>
+      <p class="showroom-addr">
+        Trung tâm Quận Hoàn Kiếm, TP. Hà Nội<br>
+        Hotline: 0911 00 22 33<br>
+        Giao hỏa tốc nội thành trong 2 giờ
+      </p>
+      <span style="font-size: 11px; color: var(--gold-primary); font-family: var(--font-display); display: block; margin-top: 10px;">Phòng Sommelier Private Tiếp Khách</span>
+    </div>
+
+    <div class="showroom-card">
+      <h3 class="showroom-city">ĐÀ NẴNG</h3>
+      <p class="showroom-addr">
+        Quận Hải Châu, TP. Đà Nẵng<br>
+        Hotline: 0911 00 22 33<br>
+        Cung cấp vang cho Resort & Khách sạn 5 sao
+      </p>
+      <span style="font-size: 11px; color: var(--gold-primary); font-family: var(--font-display); display: block; margin-top: 10px;">Kho Lạnh Tiêu Chuẩn Quốc Tế</span>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer style="border-top: 1px solid var(--border-subtle); padding: 40px 20px; text-align: center; font-size: 11.5px; color: var(--text-muted); background: #0a0204;">
+  <p style="font-family: var(--font-display); font-size: 16px; font-weight: 700; color: var(--gold-primary); letter-spacing: 0.2em; margin-bottom: 6px;">VINEYARD</p>
+  <p style="max-width: 580px; margin: 0 auto 12px; line-height: 1.6;">CẢNH BÁO: Rượu bia có hại cho sức khỏe. Uống có trách nhiệm. Không lái xe sau khi sử dụng đồ uống có cồn. Sản phẩm chỉ dành cho người đủ 18 tuổi trở lên.</p>
+  <p style="font-family: var(--font-sans);">© 2026 VINEYARD.VN • Hầm rượu vang và rượu mạnh nhập khẩu chính ngạch</p>
+</footer>
+
+<!-- ==========================================================================
+     MODAL DIALOG (CHI TIẾT RƯỢU VANG & SOMMELIER SPECS)
+     ========================================================================== -->
+<div class="modal-overlay" id="detail-modal">
+  <div class="modal-container">
+    <button class="modal-close-btn" id="modal-close-btn">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 32px; align-items: center;">
+      <div style="aspect-ratio: 3/4; background: radial-gradient(circle, #380d16 0%, #0d0205 80%); border-radius: 14px; border: 1px solid var(--border-gold); padding: 24px; display: flex; align-items: center; justify-content: center;">
+        <img id="modal-img" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'/%3E" alt="Wine" style="max-height: 90%; max-width: 90%; object-fit: contain; filter: drop-shadow(0 20px 30px rgba(0,0,0,0.9));">
+      </div>
+
+      <div>
+        <span style="font-family: var(--font-display); font-size: 11px; letter-spacing: 0.2em; color: var(--gold-primary); text-transform: uppercase;" id="modal-brand">Selection</span>
+        <h2 style="font-family: var(--font-serif); font-size: 24px; line-height: 1.25; margin: 8px 0 14px; color: var(--text-primary);" id="modal-name">Tên Rượu</h2>
+
+        <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 18px;" id="modal-pills">
+          <!-- pills -->
+        </div>
+
+        <div style="padding: 16px; border-radius: 10px; background: rgba(255,255,255,0.03); border: 1px solid var(--border-subtle); margin-bottom: 20px;">
+          <h4 style="font-family: var(--font-display); font-size: 12px; color: var(--gold-light); margin-bottom: 6px; letter-spacing: 0.1em;">GHI CHÚ THỬ NẾM SOMMELIER</h4>
+          <p style="font-size: 13.5px; color: var(--text-secondary); line-height: 1.6;" id="modal-tasting">Hương vị...</p>
+        </div>
+
+        <div style="display: flex; gap: 12px;">
+          <button class="btn-royal-solid" id="modal-add-cart-btn" style="flex: 1; justify-content: center;">THÊM VÀO TƯ VẤN</button>
+          <a id="modal-origin-link" href="#" target="_blank" rel="noreferrer" class="btn-royal-outline" style="padding: 12px 18px;" title="Đối chiếu dữ liệu gốc vineyard.vn">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==========================================================================
+     CART DRAWER (TƯ VẤN THƯỞNG THỨC SOMMELIER)
+     ========================================================================== -->
+<div class="cart-drawer-overlay" id="cart-drawer-overlay">
+  <div class="cart-drawer" id="cart-drawer">
+    <div>
+      <div style="display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--border-gold); padding-bottom: 16px; margin-bottom: 20px;">
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="var(--gold-primary)"><circle cx="12" cy="12" r="10"/></svg>
+          <h3 style="font-family: var(--font-display); font-size: 14px; letter-spacing: 0.14em; color: var(--text-primary);">DANH SÁCH THỬ NẾM</h3>
+        </div>
+        <button id="cart-close-btn" style="background: none; border: none; color: var(--text-muted); cursor: pointer; padding: 4px;">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+
+      <div id="cart-items-container" style="max-height: 48vh; overflow-y: auto; display: flex; flex-direction: column; gap: 12px;">
+        <!-- Injected cart items -->
+      </div>
+    </div>
+
+    <!-- Bottom consultation form -->
+    <div style="border-top: 1px solid var(--border-gold); padding-top: 18px;">
+      <p style="font-size: 11.5px; color: var(--text-muted); margin-bottom: 10px; line-height: 1.5;">Chuyên viên Sommelier sẽ liên hệ để chuẩn bị rượu, ướp lạnh sẵn và giao tận tay quý khách.</p>
+      <input type="text" id="consult-name" placeholder="Họ và tên quý khách *" style="width: 100%; padding: 11px 14px; border-radius: 6px; background: rgba(255,255,255,0.05); border: 1px solid var(--border-gold); color: #fff; font-size: 12.5px; margin-bottom: 8px; outline: none;">
+      <input type="tel" id="consult-phone" placeholder="Số điện thoại / Zalo *" style="width: 100%; padding: 11px 14px; border-radius: 6px; background: rgba(255,255,255,0.05); border: 1px solid var(--border-gold); color: #fff; font-size: 12.5px; margin-bottom: 12px; outline: none;">
+      <button class="btn-royal-solid" id="consult-submit-btn" style="width: 100%; justify-content: center; padding: 12px;">GỬI YÊU CẦU CHO SOMMELIER</button>
+    </div>
+  </div>
+</div>
+
+<!-- ==========================================================================
+     CORE APPLICATION JAVASCRIPT
+     ========================================================================== -->
+<script>
+const ALL_WINES = {catalog_json_str};
+let cart = [];
+
+// Hero Showcase Wine (Default: R9 Primitivo di Manduria)
+const heroWine = ALL_WINES[0] || {{
+  name: "R9 Primitivo & Syrah Passito Salento IGP",
+  brand: "Reputazione",
+  origin: "Ý • Puglia",
+  abv: "19.0%",
+  sku: "B06.GRATI.06",
+  tasting: "Cấu trúc chắc chắn, hương quả mận chín, anh đào đen, sô-cô-la đen hòa quyện cùng gia vị nướng ấm áp của gỗ sồi lâu năm.",
+  img: "assets/products/28661ef5622345ad.png",
+  source_url: "https://vineyard.vn/san-pham/r9-primitivo-icono"
+}};
+
+// Render Catalog Grid (All 35 Wines)
+const wineGrid = document.getElementById("wine-cards-grid");
+
+function renderWineGrid(filterCountry = "All", filterQuery = "") {{
+  wineGrid.innerHTML = "";
+
+  const filtered = ALL_WINES.filter(w => {{
+    const matchC = filterCountry === "All" || w.country.toLowerCase().includes(filterCountry.toLowerCase()) || w.origin.toLowerCase().includes(filterCountry.toLowerCase());
+    const matchQ = !filterQuery || w.name.toLowerCase().includes(filterQuery.toLowerCase()) || w.sku.toLowerCase().includes(filterQuery.toLowerCase());
+    return matchC && matchQ;
+  }});
+
+  filtered.forEach(p => {{
+    const card = document.createElement("div");
+    card.className = "wine-art-card";
+    card.innerHTML = `
+      <div class="card-top-badges">
+        <span class="badge-country">${{p.country}}</span>
+        <span class="badge-abv">${{p.abv}}</span>
+      </div>
+      <div class="card-bottle-stage" onclick="openModalById(${{p.id}})">
+        <img src="${{p.img}}" onerror="this.src='${{p.fallback_img}}'" alt="${{p.name}}" loading="lazy">
+      </div>
+      <div class="card-body">
+        <div>
+          <div class="card-brand">${{p.brand}} • ${{p.vintage || 'Vintage'}}</div>
+          <h4 class="card-wine-name" onclick="openModalById(${{p.id}})">${{p.name}}</h4>
+          <p class="card-terroir">${{p.origin}}</p>
+        </div>
+        <div class="card-foot">
+          <div class="card-price">${{p.price}}</div>
+          <button class="btn-card-action" onclick="addToCartById(${{p.id}}); event.stopPropagation();" title="Thêm vào danh sách thử nếm">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          </button>
+        </div>
+      </div>
+    `;
+    wineGrid.appendChild(card);
+  }});
+}}
+
+// Country Filter Events
+document.querySelectorAll(".filter-btn").forEach(btn => {{
+  btn.onclick = () => {{
+    document.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("active"));
+    btn.classList.add("active");
+    renderWineGrid(btn.dataset.country, document.getElementById("catalog-search-input").value);
+  }};
+}});
+
+document.getElementById("catalog-search-input").oninput = (e) => {{
+  const activeBtn = document.querySelector(".filter-btn.active");
+  const country = activeBtn ? activeBtn.dataset.country : "All";
+  renderWineGrid(country, e.target.value);
+}};
+
+// Modal Functions
+const modal = document.getElementById("detail-modal");
+function openModal(wine) {{
+  const modalImg = document.getElementById("modal-img");
+  modalImg.src = wine.img;
+  modalImg.onerror = () => {{ if (wine.fallback_img) modalImg.src = wine.fallback_img; }};
+
+  document.getElementById("modal-name").textContent = wine.name;
+  document.getElementById("modal-brand").textContent = `${{wine.brand}} • ${{wine.vintage || ''}}`;
+  document.getElementById("modal-tasting").textContent = wine.tasting;
+  document.getElementById("modal-origin-link").href = wine.source_url;
+
+  const pills = document.getElementById("modal-pills");
+  pills.innerHTML = `
+    <span class="hero-spec-pill abv">${{wine.abv}} ABV</span>
+    <span class="hero-spec-pill">${{wine.origin}}</span>
+    <span class="hero-spec-pill">SKU: ${{wine.sku}}</span>
+  `;
+
+  document.getElementById("modal-add-cart-btn").onclick = () => {{
+    addToCart(wine);
+    closeModal();
+  }};
+
+  modal.classList.add("open");
+}}
+
+function openModalById(id) {{
+  const w = ALL_WINES.find(item => item.id === id);
+  if (w) openModal(w);
+}}
+
+function closeModal() {{
+  modal.classList.remove("open");
+}}
+
+document.getElementById("modal-close-btn").onclick = closeModal;
+modal.onclick = (e) => {{ if (e.target === modal) closeModal(); }};
+
+// Hero CTA buttons
+document.getElementById("hero-detail-modal-btn").onclick = () => openModal(heroWine);
+document.getElementById("hero-add-cart-btn").onclick = () => addToCart(heroWine);
+
+// Cart Drawer Functions
+const cartOverlay = document.getElementById("cart-drawer-overlay");
+const cartBadge = document.getElementById("cart-badge");
+const cartItemsContainer = document.getElementById("cart-items-container");
+
+function addToCart(wine) {{
+  const exists = cart.find(c => c.wine.id === wine.id);
+  if (exists) exists.qty += 1;
+  else cart.push({{ wine, qty: 1 }});
+  updateCartUI();
+  openCart();
+}}
+
+function addToCartById(id) {{
+  const w = ALL_WINES.find(item => item.id === id);
+  if (w) addToCart(w);
+}}
+
+function updateCartUI() {{
+  const total = cart.reduce((acc, c) => acc + c.qty, 0);
+  cartBadge.textContent = total;
+
+  if (cart.length === 0) {{
+    cartItemsContainer.innerHTML = `
+      <div style="text-align: center; color: var(--text-muted); padding: 40px 0;">
+        <p style="font-family: var(--font-serif); font-size: 15px; color: var(--text-primary); margin-bottom: 6px;">Hầm rượu của bạn đang trống</p>
+        <p style="font-size: 12.5px;">Hãy chọn các tuyệt phẩm vang để nhận tư vấn Sommelier.</p>
+      </div>
+    `;
+    return;
+  }}
+
+  cartItemsContainer.innerHTML = "";
+  cart.forEach((c, idx) => {{
+    const row = document.createElement("div");
+    row.style.cssText = "display: flex; align-items: center; gap: 12px; background: rgba(255,255,255,0.03); border: 1px solid var(--border-subtle); border-radius: 8px; padding: 10px;";
+    row.innerHTML = `
+      <img src="${{c.wine.img}}" onerror="this.src='${{c.wine.fallback_img}}'" style="width: 40px; height: 50px; object-fit: contain;">
+      <div style="flex: 1; min-width: 0;">
+        <h4 style="font-family: var(--font-serif); font-size: 13px; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${{c.wine.name}}</h4>
+        <span style="font-size: 10.5px; color: var(--gold-primary); font-family: var(--font-display);">${{c.wine.abv}} • ${{c.wine.origin}}</span>
+        <div style="display: flex; align-items: center; gap: 8px; margin-top: 4px;">
+          <span style="font-size: 11.5px; color: var(--text-secondary);">Số lượng: <strong>${{c.qty}}</strong></span>
+        </div>
+      </div>
+      <button onclick="removeCart(${{idx}})" style="background: none; border: none; color: #786f72; cursor: pointer; padding: 4px;">✕</button>
+    `;
+    cartItemsContainer.appendChild(row);
+  }});
+}}
+
+function removeCart(idx) {{
+  cart.splice(idx, 1);
+  updateCartUI();
+}}
+
+function openCart() {{ cartOverlay.classList.add("open"); }}
+function closeCart() {{ cartOverlay.classList.remove("open"); }}
+
+document.getElementById("cart-open-btn").onclick = openCart;
+document.getElementById("cart-close-btn").onclick = closeCart;
+cartOverlay.onclick = (e) => {{ if (e.target === cartOverlay) closeCart(); }};
+
+document.getElementById("consult-submit-btn").onclick = () => {{
+  const name = document.getElementById("consult-name").value;
+  const phone = document.getElementById("consult-phone").value;
+  if (!name || !phone) {{
+    alert("Vui lòng nhập Họ tên và Số điện thoại!");
+    return;
+  }}
+  alert(`Cảm ơn quý khách ${{name}}! Chuyên viên Sommelier của Vineyard sẽ gọi điện tư vấn trực tiếp trong 15 phút.`);
+  cart = [];
+  updateCartUI();
+  closeCart();
+}};
+
+// Subtle Ambient Stardust Particles
+const canvas = document.getElementById("stardust-canvas");
+const ctx = canvas.getContext("2d");
+let particles = [];
+
+function resizeCanvas() {{
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+}}
+window.addEventListener("resize", resizeCanvas);
+resizeCanvas();
+
+class Particle {{
+  constructor() {{ this.reset(); }}
+  reset() {{
+    this.x = Math.random() * canvas.width;
+    this.y = Math.random() * canvas.height;
+    this.size = Math.random() * 1.8 + 0.4;
+    this.speedY = -(Math.random() * 0.3 + 0.08);
+    this.speedX = (Math.random() - 0.5) * 0.25;
+    this.alpha = Math.random() * 0.5 + 0.15;
+    this.fade = Math.random() * 0.004 + 0.002;
+  }}
+  update() {{
+    this.y += this.speedY;
+    this.x += this.speedX;
+    this.alpha -= this.fade;
+    if (this.alpha <= 0 || this.y < 0) this.reset();
+  }}
+  draw() {{
+    ctx.save();
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(203, 176, 109, ${{this.alpha}})`;
+    ctx.shadowBlur = 6;
+    ctx.shadowColor = "rgba(203, 176, 109, 0.7)";
+    ctx.fill();
+    ctx.restore();
+  }}
+}}
+
+for (let i = 0; i < 40; i++) particles.push(new Particle());
+
+function animateCanvas() {{
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  particles.forEach(p => {{ p.update(); p.draw(); }});
+  requestAnimationFrame(animateCanvas);
+}}
+animateCanvas();
+
+// Boot
+renderWineGrid();
+</script>
+
+</body>
+</html>
+"""
+
+with open("index.html", "w", encoding="utf-8") as f:
+    f.write(html_content)
+
+print("index.html successfully updated to exact Royal Bordeaux & Baroque Gold design from user reference!")
